@@ -2,10 +2,10 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import func
 from sqlalchemy.orm import Session
 
-from ..database import get_db
-from ..models import LikeDB, PostDB, UserDB
-from ..schemas import PostCreate, Post
-from ..auth import get_current_user, require_current_user
+from ..database.database import get_db
+from ..models.models import LikeDB, PostDB, UserDB
+from ..schema.schemas import PostCreate, Post
+from ..auth.auth import get_current_user, require_current_user
 from typing import Optional
 
 router = APIRouter()
