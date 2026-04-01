@@ -3,8 +3,8 @@ from sqlalchemy import func
 from sqlalchemy.orm import Session
 
 from ..database.database import get_db
-from ..models.models import LikeDB, PostDB, UserDB
-from ..schema.schemas import PostCreate, Post
+from ..models import LikeDB, PostDB, UserDB
+from ..schemas.schemas import PostCreate, Post
 from ..auth.auth import get_current_user, require_current_user
 from typing import Optional
 
