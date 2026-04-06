@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import func
 from sqlalchemy.orm import Session
+from app.tasks import send_like_notification
 
 from ..database.database import get_db
 from ..models import LikeDB, PostDB, UserDB
@@ -194,4 +195,15 @@ def toggle_like(
 
     db.add(LikeDB(user_id=current_user.id, post_id=post_id))
     db.commit()
+
+    # fetch post owner email
+    post_owner = db.query(UserDB).filter(UserDB.id == post.owner_id).first()
+
+    # trigger background email task
+    send_like_notification.delay(
+        post_owner_email=post_owner.email,
+        post_title=post.title,
+        liked_by=current_user.username
+    )
+
     return {"message": "Post liked", "liked": True}
